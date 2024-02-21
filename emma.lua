@@ -28,7 +28,7 @@ local YPos = 0
 local FacingDirection = NORTH
 
 local arg1, arg2 = ...
-local FlattenX, FlattenY = tostring(arg1), tostring(arg2)
+local FlattenX, FlattenY = tonumber(arg1), tonumber(arg2)
 
 
 local function Dig()
