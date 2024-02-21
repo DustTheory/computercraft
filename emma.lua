@@ -76,7 +76,7 @@ local function TurnInDirection(turnDirection)
     end
 
     if not Success then
-        print("Failed to turn: ", FailedReason)
+        print("Failed to turn")
         return false;
     end
 
