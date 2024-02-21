@@ -27,12 +27,10 @@ local XPos = 0
 local YPos = 0 
 local FacingDirection = NORTH
 
-local FlattenX = 16
-local FlattenY = 16
+local FlattenX, FlattenY = ...
 
 
 local function Dig()
-    print("Dig")
     local Success, FailedReason = turtle.dig()
     if not Success then
         print("Failed to dig block ahead: ", FailedReason);
@@ -41,7 +39,6 @@ local function Dig()
 end
 
 local function MoveFowrard()
-    print("MoveFowrard")
     if turtle.detect() then 
         if not Dig() then return false; end
         return MoveFowrard()
@@ -59,7 +56,6 @@ local function MoveFowrard()
 end
 
 local function GetTurnDirection()
-    print("GetTurnDirection")
     if(YPos >= FlattenY and XPos % FlattenX == 0) then
         return END_WALK
     elseif(XPos >= FlattenX and FacingDirection == NORTH) then
@@ -72,7 +68,6 @@ local function GetTurnDirection()
 end
 
 local function TurnInDirection(TurnDirection) 
-    print("TurnInDirection")
     local Success = false
 
     if TurnDirection == RIGHT then
@@ -100,7 +95,6 @@ local function TurnInDirection(TurnDirection)
 end
 
 local function TurnAround(TurnDirection)
-    print("TurnAround")
     if not TurnInDirection(TurnDirection) then return false; end
     if not MoveFowrard() then return false end
     if not TurnInDirection(TurnDirection) then return false; end
@@ -108,8 +102,6 @@ local function TurnAround(TurnDirection)
 end
 
 local function Refuel()
-    print("Refuel")
-
     turtle.select(FUEL_SLOT)
 
     local Success = turtle.refuel();
@@ -123,7 +115,6 @@ local function Refuel()
 end
 
 local function HandleFailedAction()
-    print("HandleFailedAction")
    -- for now handle only case when out of fuel 
    if turtle.getFuelLevel() == 0 then
         print("Out of fuel, starting refuel")
@@ -136,7 +127,6 @@ local function HandleFailedAction()
 end
 
 local function RunAction(fn)
-    print("RunAction")
     if not fn() then
         local Success = HandleFailedAction()
         return Success
