@@ -138,9 +138,10 @@ local function Main()
     while not EndProgram do
         local TurnDirection = GetTurnDirection();
         if TurnDirection ~= NONE then
-           EndProgram = not RunAction(function() return TurnAround(TurnDirection) end)
+           local Success = RunAction(function() return TurnAround(TurnDirection) end)
+           if not Success then break end
         end
-        EndProgram = not RunAction(MoveFowrard)
+        if not RunAction(MoveFowrard) then break end
     end
 end
 
