@@ -49,8 +49,8 @@ local function MoveFowrard()
             return false;
        end
 
-       XPos = XPos + MOVE_INCREMENTS[FacingDirection][0]
-       YPos = YPos + MOVE_INCREMENTS[FacingDirection][1]
+       XPos = XPos + MOVE_INCREMENTS[FacingDirection+1][1]
+       YPos = YPos + MOVE_INCREMENTS[FacingDirection+1][2]
        return true;
     end
 end
