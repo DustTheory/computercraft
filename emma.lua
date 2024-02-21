@@ -19,8 +19,8 @@ local LEFT = 2
 local END_WALK = 3
 
 -- SLOTS 
-local FUEL_SLOT = 0
-local RESERVED_MYSTERY_SLOTS = 1
+local FUEL_SLOT = 1
+local RESERVED_MYSTERY_SLOTS = 2
 local FREE_SLOTS = 5
 
 local XPos = 0
