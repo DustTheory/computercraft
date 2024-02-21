@@ -1,8 +1,8 @@
 -- ROTATION DIRECTIONS
-NORTH = 0
-EAST = 1
-SOUTH = 2
-WEST = 3
+local NORTH = 0
+local EAST = 1
+local SOUTH = 2
+local WEST = 3
 
 local MOVE_INCREMENTS = {
     {1, 0},
@@ -13,22 +13,22 @@ local MOVE_INCREMENTS = {
 
    
 -- TURN DIRECTIONS
-NONE = 0
-RIGHT = 1
-LEFT = 2
-END_WALK = 3
+local NONE = 0
+local RIGHT = 1
+local LEFT = 2
+local END_WALK = 3
 
 -- SLOTS 
-FUEL_SLOT = 0
-RESERVED_MYSTERY_SLOTS = 1
-FREE_SLOTS = 5
+local FUEL_SLOT = 0
+local RESERVED_MYSTERY_SLOTS = 1
+local FREE_SLOTS = 5
 
 local XPos = 0
 local YPos = 0 
 local FacingDirection = NORTH
 
-FlattenX = 16
-FlattenY = 16
+local FlattenX = 16
+local FlattenY = 16
 
 
 local function Dig()
