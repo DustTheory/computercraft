@@ -1,19 +1,35 @@
-XPos = 0
-YPos = 0 
+-- ROTATION DIRECTIONS
+NORTH = 0
+EAST = 1
+SOUTH = 2
+WEST = 3
 
-FlattenX = 16
-FlattenY = 16
+MOVE_INCREMENTS = {
+    {1, 0},
+    {0, 1},
+    {-1, 0},
+    {0, -1}
+}
 
    
 -- TURN DIRECTIONS
 NONE = 0
 RIGHT = 1
-LEFT = -1
+LEFT = 2
+END_WALK = 3
 
 -- SLOTS 
 FUEL_SLOT = 0
 RESERVED_MYSTERY_SLOTS = 1
 FREE_SLOTS = 5
+
+XPos = 0
+YPos = 0 
+FacingDirection = NORTH
+
+FlattenX = 16
+FlattenY = 16
+
 
 local function Dig()
     local Success, FailedReason = turtle.dig()
@@ -30,7 +46,13 @@ local function MoveFowrard()
        local Success, FailedReason = turtle.forward()
        if not Success then
             print("Failed to move forward: ", FailedReason)
+            return false;
        end
+
+       IncrementX, IncrementY = table.unpack(MOVE_INCREMENTS[FacingDirection])
+       XPos = XPos + IncrementX
+       YPos = YPos + IncrementY
+       return true;
     end
 end
 
@@ -45,19 +67,27 @@ local function GetTurnDirection()
 end
 
 local function TurnInDirection(turnDirection) 
-    local Success, FailedReason
+    local Success
 
     if turnDirection == RIGHT then
-        Success, FailedReason = turtle.turnRight()
+        Success = turtle.turnRight()        
     elseif Success == LEFT then
-        Failed, FailedReason = turtle.turnLeft()
+        Success = turtle.turnLeft()
     end
 
     if not Success then
         print("Failed to turn: ", FailedReason)
+        return false;
     end
 
-    return Success;
+    if turnDirection == RIGHT then
+        FacingDirection = (FacingDirection + 1) % 4
+    else
+        FacingDirection = (FacingDirection - 1) % 4
+    end
+
+
+    return true;
 end
 
 local function TurnAround(turnDirection)
@@ -69,9 +99,9 @@ end
 local function Refuel()
     turtle.select(FUEL_SLOT)
 
-    local Success, FailedReason = turtle.refuel();
+    local Success = turtle.refuel();
     if not Success then
-        print("Failed to refuel:", FailedReason)
+        print("Failed to refuel")
     end
 
     turtle.select(FREE_SLOTS)
