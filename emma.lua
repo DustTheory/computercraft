@@ -59,10 +59,12 @@ end
 
 local function GetTurnDirection()
     print("GetTurnDirection")
-    if(XPos == FlattenX) then
+    if(YPos == FlattenY and XPos % FlattenX == 0) then
+        return END_WALK
+    else if(XPos == FlattenX and FacingDirection == NORTH) then
        return RIGHT;
-    elseif(XPos == 0) then
-        return LEFT;
+    elseif(XPos == 0 and FacingDirection == SOUTH) then
+        return LEFT;        
     else
         return NONE;
     end
