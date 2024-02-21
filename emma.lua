@@ -23,9 +23,9 @@ FUEL_SLOT = 0
 RESERVED_MYSTERY_SLOTS = 1
 FREE_SLOTS = 5
 
-XPos = 0
-YPos = 0 
-FacingDirection = NORTH
+local XPos = 0
+local YPos = 0 
+local FacingDirection = NORTH
 
 FlattenX = 16
 FlattenY = 16
