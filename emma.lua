@@ -4,7 +4,7 @@ EAST = 1
 SOUTH = 2
 WEST = 3
 
-MOVE_INCREMENTS = {
+local MOVE_INCREMENTS = {
     {1, 0},
     {0, 1},
     {-1, 0},
@@ -49,9 +49,8 @@ local function MoveFowrard()
             return false;
        end
 
-       IncrementX, IncrementY = table.unpack(MOVE_INCREMENTS[FacingDirection])
-       XPos = XPos + IncrementX
-       YPos = YPos + IncrementY
+       XPos = XPos + MOVE_INCREMENTS[FacingDirection][0]
+       YPos = YPos + MOVE_INCREMENTS[FacingDirection][1]
        return true;
     end
 end
