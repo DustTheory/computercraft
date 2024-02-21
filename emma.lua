@@ -70,8 +70,12 @@ local function TurnInDirection(turnDirection)
 
     if turnDirection == RIGHT then
         Success = turtle.turnRight()        
-    elseif Success == LEFT then
+    elseif turnDirection == LEFT then
         Success = turtle.turnLeft()
+    elseif turnDirection == NONE then
+        Success = true
+    else
+        print("Invalid turn direction: ", turnDirection)
     end
 
     if not Success then
@@ -129,13 +133,15 @@ local function RunAction(fn)
 end
 
 local function Main()
-    while true do
+    local EndProgram = false
+
+    while not EndProgram do
         local TurnDirection = GetTurnDirection();
         if TurnDirection ~= NONE then
-           RunAction(TurnAround)
+           EndProgram = not RunAction(TurnAround)
         end
-        RunAction(MoveFowrard)
+        EndProgram = not RunAction(MoveFowrard)
     end
 end
 
-Main();
+Main()
