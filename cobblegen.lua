@@ -1,9 +1,10 @@
-os.loadAPI("turtleUtils.lua")
+os.loadAPI("/git/turtleUtils.lua")
 
 local CanDrop = true
 
 local function Main()
     while true do
+        ::begin::
         turtle.select(1)
         if turtle.getItemCount() == 0 then
             turtle.suckUp()
@@ -13,11 +14,14 @@ local function Main()
         turtle.select(2)
 
         if CanDrop then
-            turtle.dig()
+            if not turtle.dig() then
+                sleep(1)
+                goto begin
+            end
         end
 
         if not turtle.dropDown() then
-            sleep(60)
+            sleep(1)
             CanDrop = false
         else
             CanDrop = true
