@@ -65,17 +65,17 @@ local function GetTurnDirection()
     end
 end
 
-local function TurnInDirection(turnDirection) 
+local function TurnInDirection(TurnDirection) 
     local Success
 
-    if turnDirection == RIGHT then
+    if TurnDirection == RIGHT then
         Success = turtle.turnRight()        
-    elseif turnDirection == LEFT then
+    elseif TurnDirection == LEFT then
         Success = turtle.turnLeft()
-    elseif turnDirection == NONE then
+    elseif TurnDirection == NONE then
         Success = true
     else
-        print("Invalid turn direction: ", turnDirection)
+        print("Invalid turn direction: ", TurnDirection)
     end
 
     if not Success then
@@ -83,7 +83,7 @@ local function TurnInDirection(turnDirection)
         return false;
     end
 
-    if turnDirection == RIGHT then
+    if TurnDirection == RIGHT then
         FacingDirection = (FacingDirection + 1) % 4
     else
         FacingDirection = (FacingDirection - 1) % 4
@@ -93,10 +93,10 @@ local function TurnInDirection(turnDirection)
     return true;
 end
 
-local function TurnAround(turnDirection)
-    if not TurnInDirection(turnDirection) then return false; end
+local function TurnAround(TurnDirection)
+    if not TurnInDirection(TurnDirection) then return false; end
     if not MoveFowrard() then return false end
-    if not TurnInDirection(turnDirection) then return false; end
+    if not TurnInDirection(TurnDirection) then return false; end
 end
 
 local function Refuel()
@@ -138,7 +138,7 @@ local function Main()
     while not EndProgram do
         local TurnDirection = GetTurnDirection();
         if TurnDirection ~= NONE then
-           EndProgram = not RunAction(TurnAround)
+           EndProgram = not RunAction(function() return TurnAround(TurnDirection) end)
         end
         EndProgram = not RunAction(MoveFowrard)
     end
