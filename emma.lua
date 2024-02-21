@@ -75,7 +75,9 @@ local function TurnInDirection(TurnDirection)
     elseif TurnDirection == LEFT then
         Success = turtle.turnLeft()
     elseif TurnDirection == NONE then
-        Success = true
+        return true
+    elseif TurnDirection == END_WALK then
+        return false
     else
         print("Invalid turn direction: ", TurnDirection)
     end
