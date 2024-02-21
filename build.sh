@@ -9,7 +9,7 @@ declare -i count=0
 
 for file in ${luaFiles[@]};
 do
-  if [ $file != "gitRepo.lua" ] && [ $file != "gitFetch.lua" ]
+  if [ $file != "gitRepo.lua" ] && [ $file != "gitFetch.lua" ] && [ $file != "loonem.lua" ]
   then
     tmp[count]=$file
     count=count+1
@@ -23,7 +23,7 @@ luaFiles=${tmp[@]}
 pos=$((${#luaFiles[@]} - 1))
 last=${luaFiles[$pos]}
 
-echo -e "GitLuaFiles = {" > gitRepo.lua
+echo -e "return {" > gitRepo.lua
 
 for file in ${luaFiles[@]}; do
   if [ $file == $last ]

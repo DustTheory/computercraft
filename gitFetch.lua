@@ -12,9 +12,9 @@ shell.run(
     "wget "..GitRepoUrl.."gitRepo.lua"
 )
 
-os.loadAPI("gitRepo.lua")
-for i=1,#gitRepo.GitLuaFiles do
+local GitLuaFiles = dofile("gitRepo.lua")
+for i=1,#GitLuaFiles do
     shell.run(
-        "wget "..gitRepo.GitRepoUrl..GitLuaFiles[i].." git"
+        "wget "..GitRepoUrl..GitLuaFiles[i].." git"
     )
 end
