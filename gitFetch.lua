@@ -13,8 +13,11 @@ shell.run(
 )
 
 local GitLuaFiles = dofile("gitRepo.lua")
+print(GitLuaFiles)
 for i=1,#GitLuaFiles do
+    local wget = "wget "..GitRepoUrl..GitLuaFiles[i].." git"
+    print(wget)
     shell.run(
-        "wget "..GitRepoUrl..GitLuaFiles[i].." git"
+        wget
     )
 end
