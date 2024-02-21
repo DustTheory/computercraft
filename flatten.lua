@@ -16,7 +16,7 @@ local function Main()
     local EndProgram = false
     local MoveCount = 0
 
-    while !EndProgram do
+    while not EndProgram do
        EndProgram = Move()
        MoveCount = MoveCount + 1
        if MoveCount == 5 then
