@@ -1,7 +1,7 @@
 local GitRepoUrl = "https://raw.githubusercontent.com/DustTheory/computercraft/main/"
 
 shell.run(
-    "rm git GitRepo.lua"
+    "rm git gitRepo.lua"
 )
 
 shell.run(
@@ -9,11 +9,12 @@ shell.run(
 )
 
 shell.run(
-    "wget "..GitRepoUrl.."GitRepo.lua"
+    "wget "..GitRepoUrl.."gitRepo.lua"
 )
 
+local GitLuaFiles = dofile("gitRepo.lua")
 for i=1,#GitLuaFiles do
     shell.run(
-        "wget "..GitRepoUrl..GitLuaFiles[i].." git"
+        "wget "..GitRepoUrl..GitLuaFiles[i].." git/"..GitLuaFiles[i]
     )
 end

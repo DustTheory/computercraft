@@ -8,6 +8,10 @@
     "Lua.diagnostics.globals": [
         "shell",
         "write",
-        "turtle"
+        "turtle",
+        "gitRepo"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-field"
     ],
 }
