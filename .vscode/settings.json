@@ -7,6 +7,10 @@
     },
     "Lua.diagnostics.globals": [
         "shell",
-        "write"
+        "write",
+        "gitRepo"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-field"
     ],
 }
