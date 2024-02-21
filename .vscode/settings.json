@@ -1,0 +1,12 @@
+{
+    "[*]": {
+        "editor.tabSize": 4
+    },
+    "[sh]": {
+        "editor.tabSize": 2
+    },
+    "Lua.diagnostics.globals": [
+        "shell",
+        "write"
+    ],
+}
