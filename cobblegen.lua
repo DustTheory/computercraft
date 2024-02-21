@@ -4,13 +4,15 @@ local CanDrop = true
 
 local function Main()
     while true do
-        turtle.select(1)
-        if turtle.getItemCount() == 0 then
-            turtle.suckUp()
-            turtleUtils.Refuel()
-        end
+        if turtle.getFuelLevel == 0 then
+            turtle.select(1)
+            if turtle.getItemCount() == 0 then
+                turtle.suckUp()
+                turtleUtils.Refuel()
+            end
 
-        turtle.select(2)
+            turtle.select(2)
+        end
 
         local DidDig = false
         if CanDrop then
