@@ -4,7 +4,6 @@ local CanDrop = true
 
 local function Main()
     while true do
-        ::begin::
         turtle.select(1)
         if turtle.getItemCount() == 0 then
             turtle.suckUp()
@@ -13,14 +12,16 @@ local function Main()
 
         turtle.select(2)
 
+        local DidDig = false
         if CanDrop then
             if not turtle.dig() then
                 sleep(1)
-                goto begin
+            else
+                DidDig = true
             end
         end
 
-        if not turtle.dropDown() then
+        if (not turtle.dropDown()) and DidDig then
             sleep(1)
             CanDrop = false
         else
