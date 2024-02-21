@@ -14,19 +14,19 @@ local function Main()
 
         local DidDig = false
         if CanDrop then
-            if not turtle.dig() then
-                sleep(1)
-            else
+            if turtle.dig() then
                 DidDig = true
             end
         end
 
         if (not turtle.dropDown()) and DidDig then
-            sleep(1)
+            sleep(60)
             CanDrop = false
         else
             CanDrop = true
         end
+
+        print(turtle.getFuelLevel())
     end
 end
 
