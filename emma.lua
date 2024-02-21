@@ -43,7 +43,8 @@ end
 local function MoveFowrard()
     print("MoveFowrard")
     if turtle.detect() then 
-        return Dig();
+        if not Dig() then return false; end
+        MoveFowrard()
     else
        local Success, FailedReason = turtle.forward()
        if not Success then
