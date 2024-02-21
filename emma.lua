@@ -70,7 +70,7 @@ end
 
 local function TurnInDirection(TurnDirection) 
     print("TurnInDirection")
-    local Success
+    local Success = false
 
     if TurnDirection == RIGHT then
         Success = turtle.turnRight()        
@@ -101,6 +101,7 @@ local function TurnAround(TurnDirection)
     if not TurnInDirection(TurnDirection) then return false; end
     if not MoveFowrard() then return false end
     if not TurnInDirection(TurnDirection) then return false; end
+    return true
 end
 
 local function Refuel()
