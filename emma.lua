@@ -8,6 +8,9 @@ local WEST = 3
 local RIGHT = 1
 local LEFT = -1
 
+-- VERTICAL DIRECTIONS
+local UP = 1
+local DOWN = -1
 
 local MOVE_INCREMENTS = {
     {0, 1},
@@ -19,13 +22,41 @@ local MOVE_INCREMENTS = {
 local xPos, yPos, zPos = 0, 0, 0
 local facingDirection = NORTH
 
+function dig()
+
+end
+
 function moveForward()
+    
+    if turtle.detect() then
+        turtle.dig()
+    end
+    
     turtle.forward()
 
     xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
     zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
     print(xPos, zPos, yPos)
+end
+
+function moveVertical(direction)
+    local look = turtle.detectUp;
+    local dig = turtle.digUp;
+    local move = turtle.up;
+
+    if direction == DOWN then
+        look = turtle.detectDown
+        dig = turtle.digDown
+        move = turtle.down
+    end
+
+    if look() then 
+        dig()
+    end
+    move()
+
+    yPos = yPos + direction
 end
 
 function turn(turnDirection)
@@ -75,12 +106,11 @@ function sweepPlane(x, z)
     turn(LEFT)
 end
 
-function Sweep(x, y, z)    
+function Sweep(x, y, z, verticalDirection)    
     while yPos < y do
         walkPlane(x, z)
         if yPos ~= y then
-            turtle.up()
-            yPos = yPos + 1
+           moveVertical(verticalDirection)
         end
     end
     
