@@ -28,9 +28,11 @@ local XPos = 0
 local ZPos = 0
 local YPos = 0 
 local FacingDirection = NORTH
+local level_progress = 0
 
 local arg1, arg2, arg3 = ...
 local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2), tonumber(arg3)
+
 
 local function Dig()
     local Success, FailedReason = turtle.dig()
@@ -50,26 +52,10 @@ local function MoveFowrard()
             print("Failed to move forward: ", FailedReason)
             return false
        end
-
+       level_progress = level_progress + 1
        XPos = XPos + MOVE_INCREMENTS[FacingDirection+1][1]
        ZPos = ZPos + MOVE_INCREMENTS[FacingDirection+1][2]
        return true
-    end
-end
-
-local function GetTurnDirection()
-    if(ZPos >= MineZ - 1 and XPos % MineX == 0) then
-        return END_LEVEL
-    elseif(XPos >= MineX and FacingDirection == NORTH) then
-       return RIGHT
-    elseif(XPos >= MineX and FacingDirection == SOUTH) then
-        return LEFT
-    elseif(XPos <= 0 and FacingDirection == SOUTH) then
-        return LEFT        
-    elseif(XPos <= 0 and FacingDirection == NORTH) then
-        return RIGHT
-    else
-        return NONE
     end
 end
 
@@ -123,6 +109,7 @@ local function GoDown()
          return false
     end
 
+    level_progress = 1
     YPos = YPos + 1
 
     return true
@@ -148,19 +135,47 @@ local function RunAction(fn)
     return true
 end
 
+local function GetNextAction()
+    if level_progress == MineX * MineZ then
+        return GoDown;
+    end
+
+    if XPos >= MineX then
+        if YPos % 2 == 0 then
+            return function () return TurnAround(RIGHT) end
+        else
+            return function () return TurnAround(LEFT) end
+        end
+    end
+
+    if XPos <= 0 then
+        if YPos % 2 == 0 then
+            return function () return TurnAround(LEFT) end
+        else
+            return function () return TurnAround(RIGHT) end
+        end
+    end
+    
+    return function()
+            print("This should never happen")
+            return false
+        end
+end
+
 local function Main()
     local EndProgram = false
 
     while not EndProgram do
-        local TurnDirection = GetTurnDirection()
-        if TurnDirection == END_LEVEL then
-            if not RunAction(GoDown) then break end
-        elseif TurnDirection ~= NONE then
-           local Success = RunAction(function() return TurnAround(TurnDirection) end)
-           if not Success then break end
-        else
-            if not RunAction(MoveFowrard) then break end
-        end
+        local nextAction = getNextAction()
+        -- local TurnDirection = GetTurnDirection()
+        -- if TurnDirection == END_LEVEL then
+        --     if not RunAction(GoDown) then break end
+        -- elseif TurnDirection ~= NONE then
+        --    local Success = RunAction(function() return TurnAround(TurnDirection) end)
+        --    if not Success then break end
+        -- else
+        --     if not RunAction(MoveFowrard) then break end
+        -- end
     end
 end
 
