@@ -1,3 +1,5 @@
+os.loadAPI("./git/turtleUtils.lua")
+
 -- ROTATION DIRECTIONS
 local NORTH = 0
 local EAST = 1
@@ -24,27 +26,30 @@ local facingDirection = NORTH
 
 
 function moveForward(beforeHorizontalAction, afterHorizontalAction)    
-    beforeHorizontalAction()
+    turtlUtils.safeCall(beforeHorizontalAction)
 
-    turtle.forward()
+    if not turtle.forward() then
+       turtleUtils.Refuel() 
+    end
+    
 
     xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
     zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
-    afterHorizontalAction()
+    turtlUtils.safeCall(afterHorizontalAction)
 end
 
 function moveVertical(direction, beforeVerticalAction, afterVerticalAction)
-    beforeVerticalAction(direction)
+    turtlUtils.safeCall(function () beforeVerticalAction(direction) end)
     
     if(direction == UP) then
-        turtle.up()
+        if not turtle.up() then turtleUtils.Refuel() end
     else
-        turtle.down() 
+        if not turtle.down() then turtleUtils.Refuel() end
     end
     yPos = yPos + direction
 
-    afterVerticalAction(direction)
+    turtlUtils.safeCall(function () afterVerticalAction(direction) end)
 
 end
 
@@ -74,7 +79,6 @@ end
 function invertTurnDirection(turnDirection)
     return turnDirection * -1
 end
-
 
 
 function sweepPlane(x, z, beforeHorizontalAction, afterHorizontalAction)
@@ -117,7 +121,7 @@ Sweep(
             turtle.dig()
         end
     end,
-    function () end,
+    nil,
     function (direction)
         if(direction == UP) then
             if turtle.detectUp() then
@@ -130,5 +134,5 @@ Sweep(
         end
         
     end,
-    function () end
+    nil
 )
