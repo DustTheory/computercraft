@@ -116,7 +116,7 @@ function sweepPlane(x, z)
     turn(LEFT)
 end
 
-function Sweep(x, y, z, verticalDirection)    
+function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizontalAction, beforeVerticalAction, afterVerticalAction)    
     while math.abs(yPos) < y do
         sweepPlane(x, z)
         if math.abs(yPos) ~= y - 1 then
