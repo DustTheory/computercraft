@@ -1,4 +1,4 @@
--- VERSION 1.0.0
+-- VERSION 1.0.1
 
 FUEL_SLOT = 1
 
@@ -115,7 +115,7 @@ function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizont
         end
         safeCall(afterHorizontalAction)
 
-        if stepCount == x * y * z then
+        if stepCount + 1 >= x * y * z then
             break
         end
 
