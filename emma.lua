@@ -1,4 +1,4 @@
-os.loadAPI("turtleUtils")
+os.loadAPI("turtleUtils.lua")
 
 -- ROTATION DIRECTIONS
 local NORTH = 0
@@ -30,7 +30,7 @@ local YPos = 0
 local FacingDirection = NORTH
 
 local arg1, arg2, arg3 = ...
-local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2)
+local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2), tonumber(arg3)
 
 local function Dig()
     local Success, FailedReason = turtle.dig()
