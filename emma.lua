@@ -119,4 +119,4 @@ end
 local arg1, arg2, arg3, arg4 = ...
 local mineX, mineZ, mineY, verticalDir = tonumber(arg1), tonumber(arg2), tonumber(arg3), tonumber(arg4)
 
-Sweep(MineX, MineY, MineZ, verticalDir)
+Sweep(mineX, mineY, mineZ, verticalDir)
