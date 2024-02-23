@@ -107,9 +107,9 @@ function sweepPlane(x, z)
 end
 
 function Sweep(x, y, z, verticalDirection)    
-    while yPos < y do
+    while math.abs(yPos) < y do
         sweepPlane(x, z)
-        if yPos ~= y - 1 then
+        if math.abs(yPos) ~= y - 1 then
            moveVertical(verticalDirection)
         end
     end
