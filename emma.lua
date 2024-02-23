@@ -74,11 +74,13 @@ function turn(turnDirection)
         turtle.turnRight()
     end
 
-    if TurnDirection == RIGHT then
+
+    if turnDirection == RIGHT then
         facingDirection = (facingDirection + 1) % 4
     else
         facingDirection = (facingDirection - 1) % 4
     end
+
 end
 
 
@@ -114,7 +116,7 @@ function sweepPlane(x, z)
     turn(LEFT)
 end
 
-function Sweep(x, y, z, verticalDirection)    
+function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizontalAction, beforeVerticalAction, afterVerticalAction)    
     while math.abs(yPos) < y do
         sweepPlane(x, z)
         if math.abs(yPos) ~= y - 1 then
