@@ -1,4 +1,4 @@
-os.loadAPI("turtleUtils.lua")
+os.loadAPI("./git/turtleUtils.lua")
 
 -- ROTATION DIRECTIONS
 local NORTH = 0
