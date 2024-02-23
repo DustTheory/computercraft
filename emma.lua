@@ -70,7 +70,7 @@ function Sweep(x, y, z)
             walkLine(z)
             if i ~= x then
                 local turnDirection = RIGHT
-                if i % 2 == 1then turnDirection = invertTurnDirection(turnDirection) end
+                if i % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
                 if yPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
                 
                 turnAround(turnDirection)
