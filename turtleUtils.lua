@@ -1,3 +1,5 @@
+-- VERSION 1.0.0
+
 FUEL_SLOT = 1
 
 CLOCKWISE = 1
