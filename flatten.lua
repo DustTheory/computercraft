@@ -1,27 +1,7 @@
-XPos = 0
-YPos = 0 
-
-FlattenX = 16
-FlattenY = 16
-
-local function Move()
-    if turtle.detect() then 
-        return turtle.dig()
-    else
-        return turtle.forward();
-    end
-end
+os.loadAPI("/git/turtleUtils.lua")
 
 local function Main()
-    local EndProgram = false
-    local MoveCount = 0
-
-    while not EndProgram do
-       EndProgram = Move()
-       MoveCount = MoveCount + 1
-       if MoveCount == 5 then
-        EndProgram = true
-       end
-    end
+    turtleUtils.Sweep(3, 3, 3, turtleUtils.UP)
 end
 
+Main()
