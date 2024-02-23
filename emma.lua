@@ -8,6 +8,9 @@ local WEST = 3
 local RIGHT = 1
 local LEFT = -1
 
+-- VERTICAL DIRECTIONS
+local UP = 1
+local DOWN = -1
 
 local MOVE_INCREMENTS = {
     {0, 1},
@@ -19,13 +22,49 @@ local MOVE_INCREMENTS = {
 local xPos, yPos, zPos = 0, 0, 0
 local facingDirection = NORTH
 
+function dig()
+
+end
+
 function moveForward()
+    
+    if turtle.detect() then
+        turtle.dig()
+    end
+    
     turtle.forward()
 
     xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
     zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
     print(xPos, zPos, yPos)
+end
+
+function moveVertical(direction)
+    local look = turtle.detectUp;
+    local dig = turtle.digUp;
+    local move = turtle.up;
+
+    if direction == DOWN then
+        look = turtle.detectDown
+        dig = turtle.digDown
+        move = turtle.down
+    end
+
+    if(direction == UP) then
+        if turtle.detectUp() then
+            turtle.digUp()
+        end
+        turtle.up()
+        yPos = yPos + 1
+    else
+        if turtle.detectDown() then
+            turtle.digDown()
+        end
+        turtle.down()
+        yPos = yPos - 1 
+    end
+
 end
 
 function turn(turnDirection)
@@ -61,8 +100,8 @@ end
 
 function sweepPlane(x, z)
     while xPos < x do
-        walkLine(z)
-        if xPos ~= x then
+        sweepLine(z)
+        if xPos ~= x - 1 then
             local turnDirection = RIGHT
             if xPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
             if yPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
@@ -75,18 +114,17 @@ function sweepPlane(x, z)
     turn(LEFT)
 end
 
-function Sweep(x, y, z)    
-    while yPos < y do
-        walkPlane(x, z)
-        if yPos ~= y then
-            turtle.up()
-            yPos = yPos + 1
+function Sweep(x, y, z, verticalDirection)    
+    while math.abs(yPos) < y do
+        sweepPlane(x, z)
+        if math.abs(yPos) ~= y - 1 then
+           moveVertical(verticalDirection)
         end
     end
     
 end
 
-local arg1, arg2, arg3 = ...
-local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2), tonumber(arg3)
+local arg1, arg2, arg3, arg4 = ...
+local mineX, mineZ, mineY, verticalDir = tonumber(arg1), tonumber(arg2), tonumber(arg3), tonumber(arg4)
 
-Sweep(MineX, MineY, MineZ)
+Sweep(mineX, mineY, mineZ, verticalDir)
