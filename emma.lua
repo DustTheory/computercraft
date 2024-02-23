@@ -144,9 +144,9 @@ local function GetNextAction()
         return function () return TurnAround(RIGHT) end
     elseif XPos <= 0 and FacingDirection == SOUTH and levelIsEven then
         return function () return TurnAround(LEFT) end
-    elseif XPos >= MineX and FacingDirection == NORTH and not levelIsEven then
+    elseif XPos >= MineX and FacingDirection == SOUTH and not levelIsEven then
         return function () return TurnAround(LEFT) end
-    elseif XPos <= 0 and FacingDirection == SOUTH and not levelIsEven then
+    elseif XPos <= 0 and FacingDirection == NORTH and not levelIsEven then
         return function () return TurnAround(RIGHT) end
     end
 
