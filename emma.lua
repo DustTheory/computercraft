@@ -169,7 +169,7 @@ local function Main()
     local EndProgram = false
 
     while not EndProgram do
-        local nextAction = getNextAction()
+        local nextAction = GetNextAction()
         if not RunAction(nextAction) then break end
     end
 end
