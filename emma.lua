@@ -137,29 +137,32 @@ end
 
 local function GetNextAction()
     if level_progress == MineX * MineZ then
-        return GoDown;
+        return GoDown
     end
 
-    if XPos >= MineX then
-        if YPos % 2 == 0 then
-            return function () return TurnAround(RIGHT) end
+    if level_progress % MineX == 0 then
+        local levelIsEven = YPos % 2 == 0
+        local turnDirection = NONE
+        
+        if FacingDirection == NORTH and levelIsEven then
+            turnDirection = RIGHT
+        elseif FacingDirection == SOUTH and levelIsEven then
+            turnDirection = LEFT
+        elseif FacingDirection == NORTH and not levelIsEven then
+            turnDirection = LEFT
+        elseif FacingDirection == SOUTH and not levelIsEven then
+            turnDirection = RIGHT
         else
-            return function () return TurnAround(LEFT) end
+            return function ()
+                print("This should never happen")
+                return false    
+            end
         end
+           
+        return function () return TurnAround(turnDirection) end
     end
 
-    if XPos <= 0 then
-        if YPos % 2 == 0 then
-            return function () return TurnAround(LEFT) end
-        else
-            return function () return TurnAround(RIGHT) end
-        end
-    end
-    
-    return function()
-            print("This should never happen")
-            return false
-        end
+    return MoveFowrard
 end
 
 local function Main()
@@ -167,15 +170,7 @@ local function Main()
 
     while not EndProgram do
         local nextAction = getNextAction()
-        -- local TurnDirection = GetTurnDirection()
-        -- if TurnDirection == END_LEVEL then
-        --     if not RunAction(GoDown) then break end
-        -- elseif TurnDirection ~= NONE then
-        --    local Success = RunAction(function() return TurnAround(TurnDirection) end)
-        --    if not Success then break end
-        -- else
-        --     if not RunAction(MoveFowrard) then break end
-        -- end
+        if not RunAction(nextAction) then break end
     end
 end
 
