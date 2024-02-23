@@ -1,5 +1,7 @@
 return {
+	"cobblegen.lua",
+	"dropper.lua",
 	"emma.lua",
 	"flatten.lua",
-	"utils.lua"
+	"turtleUtils.lua"
 }

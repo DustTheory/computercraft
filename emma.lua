@@ -103,7 +103,7 @@ end
 
 local function Refuel()
     turtle.select(FUEL_SLOT)
-
+    
     local Success = turtle.refuel();
     if not Success then
         print("Failed to refuel")
