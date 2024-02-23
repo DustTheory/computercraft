@@ -140,26 +140,14 @@ local function GetNextAction()
         return GoDown
     end
 
-    if level_progress % MineX == 0 then
-        local levelIsEven = YPos % 2 == 0
-        local turnDirection = NONE
-        
-        if XPos ~= 0 and levelIsEven then
-            turnDirection = RIGHT
-        elseif XPos == 0 and levelIsEven then
-            turnDirection = LEFT
-        elseif XPos ~= 0 and not levelIsEven then
-            turnDirection = LEFT
-        elseif XPos == 0 and not levelIsEven then
-            turnDirection = RIGHT
-        else
-            return function ()
-                print("This should never happen")
-                return false    
-            end
-        end
-           
-        return function () return TurnAround(turnDirection) end
+    if XPos >= MineX and FacingDirection == NORTH and levelIsEven then
+        return function () return TurnAround(RIGHT) end
+    elseif XPos <= 0 and FacingDirection == SOUTH and levelIsEven then
+        return function () return TurnAround(LEFT) end
+    elseif XPos >= MineX and FacingDirection == NORTH and not levelIsEven then
+        return function () return TurnAround(LEFT) end
+    elseif XPos <= 0 and FacingDirection == SOUTH and not levelIsEven then
+        return function () return TurnAround(RIGHT) end
     end
 
     return MoveFowrard
