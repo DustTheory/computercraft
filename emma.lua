@@ -92,7 +92,6 @@ function sweepPlane(x, z)
         if i ~= x then
             local turnDirection = RIGHT
             if i % 2 == 0 then turnDirection = invertTurnDirection(turnDirection) end
-            if yPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
             
             turnAround(turnDirection)
         end
