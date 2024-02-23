@@ -19,13 +19,6 @@ local MOVE_INCREMENTS = {
     {-1, 0}
 }
 
-local FACING_DIRECTION_NAME = {
-    "north",
-    "east",
-    "south", 
-    "west"
-}
-
 local xPos, yPos, zPos = 0, 0, 0
 local facingDirection = NORTH
 
@@ -45,7 +38,6 @@ function moveForward()
     zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
     print(xPos, zPos, yPos)
-    print(FACING_DIRECTION_NAME[facingDirection+1])
 end
 
 function moveVertical(direction)
@@ -82,15 +74,13 @@ function turn(turnDirection)
         turtle.turnRight()
     end
 
-    print("turning: ", facingDirection);
 
-    if TurnDirection == RIGHT then
+    if turnDirection == RIGHT then
         facingDirection = (facingDirection + 1) % 4
     else
         facingDirection = (facingDirection - 1) % 4
     end
 
-    print("turned", facingDirection)
 end
 
 
