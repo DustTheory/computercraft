@@ -23,33 +23,28 @@ local xPos, yPos, zPos = 0, 0, 0
 local facingDirection = NORTH
 
 
-function moveForward()
-    if turtle.detect() then
-        turtle.dig()
-    end
-    
+function moveForward(beforeHorizontalAction, afterHorizontalAction)    
+    beforeHorizontalAction()
+
     turtle.forward()
 
     xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
     zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
-    print(xPos, zPos, yPos)
+    afterHorizontalAction()
 end
 
-function moveVertical(direction)
+function moveVertical(direction, beforeVerticalAction, afterVerticalAction)
+    beforeVerticalAction(direction)
+    
     if(direction == UP) then
-        if turtle.detectUp() then
-            turtle.digUp()
-        end
         turtle.up()
-        yPos = yPos + 1
     else
-        if turtle.detectDown() then
-            turtle.digDown()
-        end
-        turtle.down()
-        yPos = yPos - 1 
+        turtle.down() 
     end
+    yPos = yPos + direction
+
+    afterVerticalAction(direction)
 
 end
 
@@ -70,9 +65,9 @@ function turn(turnDirection)
 end
 
 
-function turnAround(turnDirection)
+function turnAround(turnDirection, beforeHorizontalAction, afterHorizontalAction)
     turn(turnDirection)
-    moveForward()
+    moveForward(beforeHorizontalAction, afterHorizontalAction)
     turn(turnDirection)
 end
 
@@ -80,20 +75,18 @@ function invertTurnDirection(turnDirection)
     return turnDirection * -1
 end
 
-function sweepLine(count)
-    for i = 1, count, 1 do
-        moveForward()
-    end
-end
 
-function sweepPlane(x, z)
+
+function sweepPlane(x, z, beforeHorizontalAction, afterHorizontalAction)
     for i = 1, x, 1 do
-        sweepLine(z)
+        for j = 1, z-1, 1 do
+            moveForward(beforeHorizontalAction, afterHorizontalAction)
+        end
         if i ~= x then
             local turnDirection = RIGHT
             if i % 2 == 0 then turnDirection = invertTurnDirection(turnDirection) end
             
-            turnAround(turnDirection)
+            turnAround(turnDirection, beforeHorizontalAction, afterHorizontalAction)
         end
     end
 
@@ -114,4 +107,28 @@ end
 local arg1, arg2, arg3, arg4 = ...
 local mineX, mineZ, mineY, verticalDir = tonumber(arg1), tonumber(arg2), tonumber(arg3), tonumber(arg4)
 
-Sweep(mineX, mineY, mineZ, verticalDir)
+Sweep(
+    mineX,
+    mineY,
+    mineZ,
+    verticalDir,
+    function ()
+        if turtle.detect() then
+            turtle.dig()
+        end
+    end,
+    function () end,
+    function (direction)
+        if(direction == UP) then
+            if turtle.detectUp() then
+                turtle.digUp()
+            end
+        else
+            if turtle.detectDown() then
+                turtle.digDown()
+            end 
+        end
+        
+    end,
+    function () end
+)
