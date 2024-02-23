@@ -94,12 +94,15 @@ function invertTurnDirection(turnDirection)
     return turnDirection * -1
 end
 
+function sweepLine(count)
+    for i = 1, count, 1 do
+        moveForward()
+    end
+end
 
 function sweepPlane(x, z)
     while xPos < x do
-        while zPos < z do
-            moveForward()
-        end
+        sweepLine(z)
         if xPos ~= x then
             local turnDirection = RIGHT
             if xPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
