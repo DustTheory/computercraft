@@ -46,6 +46,10 @@ local function Turn(steps, direction)
     end
 end
 
+local function Normalize(val)
+    return val % 2 * 2 - 1
+end
+
 local function MoveVertical(direction)
     if direction == UP then
         turtle.up()
@@ -88,13 +92,13 @@ function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizont
             -- funny formula step 1: (Zpos - 1) / (z - 1) * 2 - 1
             -- step 2: * (Xpos - 1) % 2 * 2 - 1
             -- step 3: * (Ypos - 1) % 2 * 2 - 1
-            Turn(1, (Zpos / (z - 1) * 2 - 1) * (Xpos % 2 * 2 - 1) * (Ypos % 2 * 2 - 1))
+            Turn(1, (Zpos / (z - 1) * 2 - 1) * Normalize(Xpos) * Normalize(Ypos))
         end
 
         if (stepCount + 1) % (x * z) == 0 then
             safeCall(beforeVerticalAction)
             if MoveVertical(verticalDirection) then
-                Ypos = (stepCount + 1) % (x * z)
+                Ypos = (stepCount + 1) / (x * z)
                 stepCount = stepCount + 1
             else
                 break    
@@ -106,12 +110,14 @@ function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizont
         if turtle.forward() then
             stepCount = stepCount + 1
             local layerMatrixPos = stepCount % (x * z)
-            Xpos = ((layerMatriXpos / z) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
-            Zpos = (math.floor(layerMatriXpos % z) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
+            Xpos = (math.floor(layerMatrixPos / z) * Normalize(Ypos + 1)) + ((x * z) * Normalize(Ypos))
+            Zpos = (math.floor(layerMatrixPos % z) * Normalize(Ypos + 1)) + ((x * z) * Normalize(Ypos))
         else
             break    
         end
         safeCall(afterHorizontalAction)
+
+        print(Xpos, Ypos, Zpos)
 
         if stepCount + 1 >= x * y * z or stepCount > 30 then
             break
