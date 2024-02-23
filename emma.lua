@@ -40,8 +40,10 @@ function moveForward(beforeHorizontalAction, afterHorizontalAction)
 end
 
 function moveVertical(direction, beforeVerticalAction, afterVerticalAction)
-    turtleUtils.safeCall(function () beforeVerticalAction(direction) end)
-    
+    if beforeVerticalAction ~= nil then
+        beforeVerticalAction(direction)
+    end
+
     if(direction == UP) then
         if not turtle.up() then turtleUtils.Refuel() end
     else
@@ -49,7 +51,9 @@ function moveVertical(direction, beforeVerticalAction, afterVerticalAction)
     end
     yPos = yPos + direction
 
-    turtleUtils.safeCall(function () afterVerticalAction(direction) end)
+    if afterVerticalAction ~= nil then
+        afterVerticalAction(direction)
+    end
 
 end
 
