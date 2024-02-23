@@ -101,11 +101,11 @@ function sweepLine(count)
 end
 
 function sweepPlane(x, z)
-    while xPos < x do
+    for i = 1, x, 1 do
         sweepLine(z)
-        if xPos ~= x then
+        if i ~= x then
             local turnDirection = RIGHT
-            if xPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
+            if i % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
             if yPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
             
             turnAround(turnDirection)
@@ -117,7 +117,7 @@ function sweepPlane(x, z)
 end
 
 function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizontalAction, beforeVerticalAction, afterVerticalAction)    
-    while math.abs(yPos) < y do
+    for i = 1, y, 1 do
         sweepPlane(x, z, beforeHorizontalAction, afterHorizontalAction)
         if math.abs(yPos) ~= y - 1 then
            moveVertical(verticalDirection,  beforeVerticalAction, afterVerticalAction)
