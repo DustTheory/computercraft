@@ -16,75 +16,71 @@ local MOVE_INCREMENTS = {
     {-1, 0}
 }
 
-function Sweep(x, y, z)
-    local xPos, yPos, zPos = 0, 0, 0
-    local facingDirection = NORTH
+local xPos, yPos, zPos = 0, 0, 0
+local facingDirection = NORTH
 
-    local stepCount = 0
+function moveForward()
+    turtle.forward()
+
+    xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
+    zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
+    print(xPos, zPos, yPos)
+end
 
-    function moveForward()
-        turtle.forward()
-
-        stepCount = stepCount + 1 
-        xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
-        zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
-        
-        print(xPos, zPos, yPos)
+function turn(turnDirection)
+    if(turnDirection == LEFT) then
+        turtle.turnLeft()
+    else
+        turtle.turnRight()
     end
 
-    function turn(turnDirection)
-        if(turnDirection == LEFT) then
-            turtle.turnLeft()
-        else
-            turtle.turnRight()
-        end
-
-        if TurnDirection == RIGHT then
-            facingDirection = (facingDirection + 1) % 4
-        else
-            facingDirection = (facingDirection - 1) % 4
-        end
+    if TurnDirection == RIGHT then
+        facingDirection = (facingDirection + 1) % 4
+    else
+        facingDirection = (facingDirection - 1) % 4
     end
+end
 
-    function walkLine(count)
-        for i = 1, count, 1 do
-            moveForward()
-        end
-    end
 
-    function turnAround(turnDirection)
-        turn(turnDirection)
+function turnAround(turnDirection)
+    turn(turnDirection)
+    moveForward()
+    turn(turnDirection)
+end
 
+function invertTurnDirection(turnDirection)
+    return turnDirection * -1
+end
+
+function sweepLine(count)
+    for i = 1, count, 1 do
         moveForward()
-
-        turn(turnDirection)
     end
+end
 
-    function invertTurnDirection(turnDirection)
-        return turnDirection * -1
-    end
-
-    function walkPlane(x, z)
-        for i = 1, x, 1 do
-            walkLine(z)
-            if i ~= x then
-                local turnDirection = RIGHT
-                if i % 2 == 1then turnDirection = invertTurnDirection(turnDirection) end
-                if yPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
-                
-                turnAround(turnDirection)
-            end
+function sweepPlane(x, z)
+    while xPos < x do
+        walkLine(z)
+        if xPos ~= x then
+            local turnDirection = RIGHT
+            if xPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
+            if yPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
+            
+            turnAround(turnDirection)
         end
-
-        turn(LEFT)
-        turn(LEFT)
     end
 
-    for i = 1, y, 1 do
+    turn(LEFT)
+    turn(LEFT)
+end
+
+function Sweep(x, y, z)    
+    while yPos < y do
         walkPlane(x, z)
-        if i ~= y then
+        if yPos ~= y then
             turtle.up()
+            yPos = yPos + 1
         end
     end
     
