@@ -22,12 +22,8 @@ local MOVE_INCREMENTS = {
 local xPos, yPos, zPos = 0, 0, 0
 local facingDirection = NORTH
 
-function dig()
-
-end
 
 function moveForward()
-    
     if turtle.detect() then
         turtle.dig()
     end
@@ -41,16 +37,6 @@ function moveForward()
 end
 
 function moveVertical(direction)
-    local look = turtle.detectUp;
-    local dig = turtle.digUp;
-    local move = turtle.up;
-
-    if direction == DOWN then
-        look = turtle.detectDown
-        dig = turtle.digDown
-        move = turtle.down
-    end
-
     if(direction == UP) then
         if turtle.detectUp() then
             turtle.digUp()
@@ -119,7 +105,7 @@ end
 function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizontalAction, beforeVerticalAction, afterVerticalAction)    
     for i = 1, y, 1 do
         sweepPlane(x, z, beforeHorizontalAction, afterHorizontalAction)
-        if math.abs(yPos) ~= y - 1 then
+        if i ~= y then
            moveVertical(verticalDirection,  beforeVerticalAction, afterVerticalAction)
         end
     end
