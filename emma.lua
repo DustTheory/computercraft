@@ -1,3 +1,4 @@
+os.loadAPI("turtleUtils")
 
 -- ROTATION DIRECTIONS
 local NORTH = 0
