@@ -92,7 +92,7 @@ end
 
 function sweepPlane(x, z)
     while xPos < x do
-        walkLine(z)
+        sweepLine(z)
         if xPos ~= x then
             local turnDirection = RIGHT
             if xPos % 2 == 1 then turnDirection = invertTurnDirection(turnDirection) end
@@ -108,7 +108,7 @@ end
 
 function Sweep(x, y, z, verticalDirection)    
     while yPos < y do
-        walkPlane(x, z)
+        sweepPlane(x, z)
         if yPos ~= y then
            moveVertical(verticalDirection)
         end
