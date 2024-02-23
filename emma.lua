@@ -11,7 +11,6 @@ local MOVE_INCREMENTS = {
     {0, -1}
 }
 
-   
 -- TURN DIRECTIONS
 local NONE = 0
 local RIGHT = 1
@@ -24,19 +23,17 @@ local RESERVED_MYSTERY_SLOTS = 2
 local FREE_SLOTS = 5
 
 local XPos = 0
+local ZPos = 0
 local YPos = 0 
 local FacingDirection = NORTH
 
-local arg1, arg2 = ...
-local FlattenX, FlattenY = tonumber(arg1), tonumber(arg2)
-
+local arg1, arg2, arg3 = ...
+local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2)
 
 local function Dig()
     local Success, FailedReason = turtle.dig()
     if not Success then
         print("Failed to dig block ahead: ", FailedReason);
-    end
-    return Success;
 end
 
 local function MoveFowrard()
@@ -51,15 +48,15 @@ local function MoveFowrard()
        end
 
        XPos = XPos + MOVE_INCREMENTS[FacingDirection+1][1]
-       YPos = YPos + MOVE_INCREMENTS[FacingDirection+1][2]
+       ZPos = ZPos + MOVE_INCREMENTS[FacingDirection+1][2]
        return true;
     end
 end
 
 local function GetTurnDirection()
-    if(YPos >= FlattenY and XPos % FlattenX == 0) then
+    if(ZPos >= MineZ and XPos % MineX == 0) then
         return END_WALK
-    elseif(XPos >= FlattenX and FacingDirection == NORTH) then
+    elseif(XPos >= MineX and FacingDirection == NORTH) then
        return RIGHT;
     elseif(XPos <= 0 and FacingDirection == SOUTH) then
         return LEFT;        
