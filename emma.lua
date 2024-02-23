@@ -26,7 +26,7 @@ local facingDirection = NORTH
 
 
 function moveForward(beforeHorizontalAction, afterHorizontalAction)    
-    turtlUtils.safeCall(beforeHorizontalAction)
+    turtleUtils.safeCall(beforeHorizontalAction)
 
     if not turtle.forward() then
        turtleUtils.Refuel() 
@@ -36,11 +36,11 @@ function moveForward(beforeHorizontalAction, afterHorizontalAction)
     xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
     zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
     
-    turtlUtils.safeCall(afterHorizontalAction)
+    turtleUtils.safeCall(afterHorizontalAction)
 end
 
 function moveVertical(direction, beforeVerticalAction, afterVerticalAction)
-    turtlUtils.safeCall(function () beforeVerticalAction(direction) end)
+    turtleUtils.safeCall(function () beforeVerticalAction(direction) end)
     
     if(direction == UP) then
         if not turtle.up() then turtleUtils.Refuel() end
@@ -49,7 +49,7 @@ function moveVertical(direction, beforeVerticalAction, afterVerticalAction)
     end
     yPos = yPos + direction
 
-    turtlUtils.safeCall(function () afterVerticalAction(direction) end)
+    turtleUtils.safeCall(function () afterVerticalAction(direction) end)
 
 end
 
