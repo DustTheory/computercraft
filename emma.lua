@@ -62,8 +62,12 @@ local function GetTurnDirection()
         return END_LEVEL
     elseif(XPos >= MineX and FacingDirection == NORTH) then
        return RIGHT
+    elseif(XPos >= MineX and FacingDirection == SOUTH) then
+        return LEFT
     elseif(XPos <= 0 and FacingDirection == SOUTH) then
         return LEFT        
+    elseif(XPos <= 0 and FacingDirection == NORTH) then
+        return RIGHT
     else
         return NONE
     end
@@ -154,8 +158,9 @@ local function Main()
         elseif TurnDirection ~= NONE then
            local Success = RunAction(function() return TurnAround(TurnDirection) end)
            if not Success then break end
+        else
+            if not RunAction(MoveFowrard) then break end
         end
-        if not RunAction(MoveFowrard) then break end
     end
 end
 
