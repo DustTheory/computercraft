@@ -116,7 +116,7 @@ function Sweep(x, y, z, verticalDirection)
     
 end
 
-local arg1, arg2, arg3 = ...
-local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2), tonumber(arg3)
+local arg1, arg2, arg3, arg4 = ...
+local mineX, mineZ, mineY, verticalDir = tonumber(arg1), tonumber(arg2), tonumber(arg3), tonumber(arg4)
 
-Sweep(MineX, MineY, MineZ)
+Sweep(MineX, MineY, MineZ, verticalDir)
