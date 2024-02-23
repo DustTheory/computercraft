@@ -1,4 +1,4 @@
--- VERSION 1.0.1
+-- VERSION 1.0.2
 
 FUEL_SLOT = 1
 
@@ -77,7 +77,6 @@ end
 ---@param afterVerticalAction function
 function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizontalAction, beforeVerticalAction, afterVerticalAction)
     local stepCount = 0
-    -- exit condition => x * y * z
     while true do
         -- The turning calculation mwhehehe
         if Zpos == 0 and Xpos == 0 and Ypos == 0 then
@@ -101,21 +100,20 @@ function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizont
                 break    
             end
             safeCall(afterVerticalAction)
-            sleep(1/20)
         end
 
         safeCall(beforeHorizontalAction)
         if turtle.forward() then
             stepCount = stepCount + 1
-            local layerMatriXpos = stepCount % (x * z)
-            Xpos = (math.floor((layerMatriXpos / x)) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
-            Zpos = ((layerMatriXpos % x) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
+            local layerMatrixPos = stepCount % (x * z)
+            Xpos = ((layerMatriXpos / z) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
+            Zpos = (math.floor(layerMatriXpos % z) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
         else
             break    
         end
         safeCall(afterHorizontalAction)
 
-        if stepCount + 1 >= x * y * z then
+        if stepCount + 1 >= x * y * z or stepCount > 30 then
             break
         end
 
