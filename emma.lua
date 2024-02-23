@@ -1,3 +1,4 @@
+
 -- ROTATION DIRECTIONS
 local NORTH = 0
 local EAST = 1
@@ -15,7 +16,7 @@ local MOVE_INCREMENTS = {
 local NONE = 0
 local RIGHT = 1
 local LEFT = 2
-local END_WALK = 3
+local END_LEVEL = 3
 
 -- SLOTS 
 local FUEL_SLOT = 1
@@ -33,35 +34,37 @@ local MineX, MineZ, MineY = tonumber(arg1), tonumber(arg2)
 local function Dig()
     local Success, FailedReason = turtle.dig()
     if not Success then
-        print("Failed to dig block ahead: ", FailedReason);
+        print("Failed to dig block ahead: ", FailedReason)
+    end
 end
+
 
 local function MoveFowrard()
     if turtle.detect() then 
-        if not Dig() then return false; end
+        if not Dig() then return false end
         return MoveFowrard()
     else
        local Success, FailedReason = turtle.forward()
        if not Success then
             print("Failed to move forward: ", FailedReason)
-            return false;
+            return false
        end
 
        XPos = XPos + MOVE_INCREMENTS[FacingDirection+1][1]
        ZPos = ZPos + MOVE_INCREMENTS[FacingDirection+1][2]
-       return true;
+       return true
     end
 end
 
 local function GetTurnDirection()
-    if(ZPos >= MineZ and XPos % MineX == 0) then
-        return END_WALK
+    if(ZPos >= MineZ - 1 and XPos % MineX == 0) then
+        return END_LEVEL
     elseif(XPos >= MineX and FacingDirection == NORTH) then
-       return RIGHT;
+       return RIGHT
     elseif(XPos <= 0 and FacingDirection == SOUTH) then
-        return LEFT;        
+        return LEFT        
     else
-        return NONE;
+        return NONE
     end
 end
 
@@ -74,7 +77,7 @@ local function TurnInDirection(TurnDirection)
         Success = turtle.turnLeft()
     elseif TurnDirection == NONE then
         return true
-    elseif TurnDirection == END_WALK then
+    elseif TurnDirection == END_LEVEL then
         return false
     else
         print("Invalid turn direction: ", TurnDirection)
@@ -82,7 +85,7 @@ local function TurnInDirection(TurnDirection)
 
     if not Success then
         print("Failed to turn")
-        return false;
+        return false
     end
 
     if TurnDirection == RIGHT then
@@ -91,34 +94,40 @@ local function TurnInDirection(TurnDirection)
         FacingDirection = (FacingDirection - 1) % 4
     end
 
-    return true;
-end
-
-local function TurnAround(TurnDirection)
-    if not TurnInDirection(TurnDirection) then return false; end
-    if not MoveFowrard() then return false end
-    if not TurnInDirection(TurnDirection) then return false; end
     return true
 end
 
-local function Refuel()
-    turtle.select(FUEL_SLOT)
-    
-    local Success = turtle.refuel();
-    if not Success then
-        print("Failed to refuel")
+local function TurnAround(TurnDirection)
+    if not TurnInDirection(TurnDirection) then return false end
+    if not MoveFowrard() then return false end
+    if not TurnInDirection(TurnDirection) then return false end
+    return true
+end
+
+local function GoDown()
+    if(YPos >= MineY) then return false end
+
+    if turtle.detectDown() then
+        turtle.digDown()
     end
 
-    turtle.select(FREE_SLOTS)
+    local Success, FailedReason = turtle.down()
 
-    return Success
+    if not Success then
+         print("Failed to move down: ", FailedReason)
+         return false
+    end
+
+    YPos = YPos + 1
+
+    return true
 end
 
 local function HandleFailedAction()
    -- for now handle only case when out of fuel 
    if turtle.getFuelLevel() == 0 then
         print("Out of fuel, starting refuel")
-        local RefuelSucceeded = Refuel();
+        local RefuelSucceeded = turtleUtils.Refuel()
         return RefuelSucceeded
    else
         print("Unexpected fail :/")
@@ -138,8 +147,10 @@ local function Main()
     local EndProgram = false
 
     while not EndProgram do
-        local TurnDirection = GetTurnDirection();
-        if TurnDirection ~= NONE then
+        local TurnDirection = GetTurnDirection()
+        if TurnDirection == END_LEVEL then
+            if not RunAction(GoDown) then break end
+        elseif TurnDirection ~= NONE then
            local Success = RunAction(function() return TurnAround(TurnDirection) end)
            if not Success then break end
         end
