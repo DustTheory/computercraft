@@ -197,9 +197,9 @@ function Sweep(x, y, z)
         end
 
         if TurnDirection == RIGHT then
-            facingDirection = (FacingDirection + 1) % 4
+            facingDirection = (facingDirection + 1) % 4
         else
-            facingDirection = (FacingDirection - 1) % 4
+            facingDirection = (facingDirection - 1) % 4
         end
     end
 
