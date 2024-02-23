@@ -144,13 +144,13 @@ local function GetNextAction()
         local levelIsEven = YPos % 2 == 0
         local turnDirection = NONE
         
-        if FacingDirection == NORTH and levelIsEven then
+        if XPos ~= 0 and levelIsEven then
             turnDirection = RIGHT
-        elseif FacingDirection == SOUTH and levelIsEven then
+        elseif XPos == 0 and levelIsEven then
             turnDirection = LEFT
-        elseif FacingDirection == NORTH and not levelIsEven then
+        elseif XPos ~= 0 and not levelIsEven then
             turnDirection = LEFT
-        elseif FacingDirection == SOUTH and not levelIsEven then
+        elseif XPos == 0 and not levelIsEven then
             turnDirection = RIGHT
         else
             return function ()
