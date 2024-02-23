@@ -1,4 +1,4 @@
--- VERSION 1.0.4
+-- VERSION 1.0.5
 
 FUEL_SLOT = 1
 
@@ -110,8 +110,8 @@ function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizont
         if turtle.forward() then
             stepCount = stepCount + 1
             local layerMatrixPos = stepCount % (x * z)
-            Xpos = (math.floor(layerMatrixPos / z) * Normalize(Ypos + 1)) - ((x - 1) * (Ypos % 2))
-            Zpos = (math.floor(layerMatrixPos % z) * Normalize(Ypos + 1)) - ((z - 1) * (Ypos % 2))
+            Xpos = math.floor(layerMatrixPos / z)
+            Zpos = layerMatrixPos % z
         else
             break    
         end
