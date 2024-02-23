@@ -183,8 +183,8 @@ function Sweep(x, y, z)
         turtle.forward()
 
         stepCount = stepCount + 1 
-        xPos = xPos + MOVE_INCREMENTS[FacingDirection+1][1]
-        zPos = zPos + MOVE_INCREMENTS[FacingDirection+1][2]
+        xPos = xPos + MOVE_INCREMENTS[facingDirection+1][1]
+        zPos = zPos + MOVE_INCREMENTS[facingDirection+1][2]
         
         print(xPos, zPos, yPos)
     end
