@@ -61,19 +61,19 @@ function Sweep(x, y, z)
         turn(turnDirection)
     end
 
-    function invertFacingDirection(facingDirection)
-        return facingDirection * -1
+    function invertTurnDirection(turnDirection)
+        return turnDirection * -1
     end
 
     function walkPlane(x, z)
         for i = 1, x, 1 do
             walkLine(z)
             if i ~= x then
-                if x % 2 == 0 then
-                    turnAround(RIGHT)
-                else
-                    turnAround(LEFT)
-                end
+                local turnDirection = RIGHT
+                if i % 2 then turnDirection = invertTurnDirection(turnDirection) end
+                if yPos % 2 then turnDirection = invertTurnDirection(turnDirection) end
+                
+                turnAround(turnDirection)
             end
         end
 
@@ -81,7 +81,12 @@ function Sweep(x, y, z)
         turn(LEFT)
     end
 
-    walkPlane(x, z)
+    for i = 1, y, 1 do
+        walkPlane(x, z)
+        if i ~= y then
+            turtle.up()
+        end
+    end
     
 end
 
