@@ -6,7 +6,7 @@ COUNTER_CLOCKWISE = -1
 UP = 1
 DOWN = -1
 
-local Xpos, Ypos, Zpos = 1, 1, 1
+local Xpos, Ypos, Zpos = 0, 0, 0
 
 ---@return boolean
 ---@param FuelBuffer number|nil
@@ -99,18 +99,23 @@ function Sweep(x, y, z, verticalDirection, beforeHorizontalAction, afterHorizont
                 break    
             end
             safeCall(afterVerticalAction)
+            sleep(1/20)
         end
 
         safeCall(beforeHorizontalAction)
         if turtle.forward() then
             stepCount = stepCount + 1
             local layerMatriXpos = stepCount % (x * z)
-            Xpos = ((layerMatriXpos / x) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
+            Xpos = (math.floor((layerMatriXpos / x)) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
             Zpos = ((layerMatriXpos % x) * ((Ypos + 1) % 2 * 2 - 1)) + ((x * z) * (Ypos % 2))
         else
             break    
         end
         safeCall(afterHorizontalAction)
+
+        if stepCount == x * y * z then
+            break
+        end
 
     end
 end
