@@ -51,12 +51,20 @@ function moveVertical(direction)
         move = turtle.down
     end
 
-    if look() then 
-        dig()
+    if(direction == UP) then
+        if turtle.detectUp() then
+            turtle.digUp()
+        end
+        turtle.up()
+        yPos = yPos + 1
+    else
+        if turtle.detectDown() then
+            turtle.digDown()
+        end
+        turtle.down()
+        yPos = yPos - 1 
     end
-    move()
 
-    yPos = yPos + direction
 end
 
 function turn(turnDirection)
